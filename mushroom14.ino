@@ -23,12 +23,19 @@ void setup() {
     pinMode(fan, OUTPUT);
 }
 
+#define CYCLE_PERIOD 60000 // total time of repeating cycle
+#define ON_TIME 0.05 * CYCLE_PERIOD // a #define is just a search-and-replace thing
+
 // the loop routine runs over and over again forever:
 void loop() {
-  digitalWrite(mist, HIGH);   // turn the LED on (HIGH is the voltage level)
-  digitalWrite(fan, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000000);               // wait for a second
-  digitalWrite(mist, LOW);    // turn the LED off by making the voltage LOW
-  digitalWrite(fan, LOW);    // turn the LED off by making the voltage LOW
-  delay(2000);               // wait for a second
+  unsigned long time = millis(); // find out current time and store it
+  unsigned long cycle_time = time % CYCLE_PERIOD; // % gives the remainder of a division
+  // cycle_time will be 0 to CYCLE_PERIOD, repeating
+  if (cycle_time < ON_TIME) { // if true, we are within the percentage which is ON_TIME
+    digitalWrite(mist, HIGH);   // turn the LED on (HIGH is the voltage level)
+    digitalWrite(fan, HIGH);   // turn the LED on (HIGH is the voltage level)
+  } else { // if we are in the other percentage of the CYCLE_PERIOD
+    digitalWrite(mist, LOW);    // turn the LED off by making the voltage LOW
+    digitalWrite(fan, LOW);    // turn the LED off by making the voltage LOW
+  }
 }
