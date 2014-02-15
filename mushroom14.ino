@@ -5,10 +5,16 @@
   This example code is in the public domain.
  */
 
+#include "DHT.h"
+
+#define DHTPIN 11     // what pin we're connected to
+#define DHTTYPE DHT22   // DHT 22  (AM2302)
+
 // Pin 13 has an LED connected on most Arduino boards.
 // give it a name:
 int mist = 1;
 int fan = 2;
+DHT dht(DHTPIN, DHTTYPE);
 
 // the setup routine runs once when you press reset:
 void setup() {
